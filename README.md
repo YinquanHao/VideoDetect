@@ -22,7 +22,10 @@ $ sudo ldconfig # refresh shared library cache. <br />
 # Compile the proto2 in the object_detection
 $ protoc object_detection/protos/*.proto --python_out=. <br />
 
-#
+# Run the object rec
+$ python objectRecModels/objDetect.py <br />
+output image will be save in /output_imgs <br />
+
 
 
 
