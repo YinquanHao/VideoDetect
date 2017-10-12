@@ -2,7 +2,7 @@
 The VideoDetect infrastructures
 
 # Install Tensorflow on Ubuntu
-$ sudo apt-get install python-pip python-dev \n
+$ sudo apt-get install python-pip python-dev
 $ pip install --no-cache-dir tensorflow
 
 # Install Opencv
@@ -12,7 +12,7 @@ $ pip install opencv-python
 $ pip install image
 
 # Install The gRPC protocal Buffer
-Download the protobuf-cpp-3.4.1.zip from https://github.com/google/protobuf/releases. \n
+Download the protobuf-cpp-3.4.1.zip from https://github.com/google/protobuf/releases.
 $ ./configure \n
 $ make
 $ make check
