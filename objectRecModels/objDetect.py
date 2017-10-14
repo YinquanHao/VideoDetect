@@ -5,13 +5,18 @@ import argparse
 import multiprocessing
 import numpy as np
 import tensorflow as tf
+import imageio
+import sys
+imageio.plugins.ffmpeg.download()
 from matplotlib import pyplot as plt
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 from PIL import Image
+from moviepy.editor import VideoFileClip
 
 CWD_PATH = os.getcwd()
-def main():
+print(sys.argv[1])
+def main(argv):
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
 	MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
 	PATH_TO_CKPT = os.path.join(CWD_PATH,  'object_detection', MODEL_NAME, 'frozen_inference_graph.pb')
@@ -26,7 +31,7 @@ def main():
 
 	# First test on images
 	PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images'
-	TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 3) ]
+	TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 4) ]
 	print("TEST_IMAGE_PATHS:",TEST_IMAGE_PATHS)
 	# Size, in inches, of the output images.
 	IMAGE_SIZE = (12, 8)
@@ -65,7 +70,16 @@ def main():
 				plt.savefig(PATH_TO_OUTPUT_IMG+'/'+str(ct) + '.jpg')
 				print(str(ct) + '.jpg')
 				ct = ct+1
-
+	def process_image(image):
+		print('enter process_image')
+		with detection_graph.as_default():
+			with tf.Session(graph=detection_graph) as sess:
+				image_process = detect_objects(image, sess, detection_graph,category_index)
+				return image_process
+	white_output = 'output/'+ argv + 'out.mp4'
+	clip1 = VideoFileClip('input/'+ argv +'.mp4').subclip(0,5)
+	white_clip = clip1.fl_image(process_image)
+	white_clip.write_videofile(white_output, audio=False)
 
 
 
@@ -118,5 +132,5 @@ def load_image_into_numpy_array(image):
 
 
 
-
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+	main(sys.argv[1])

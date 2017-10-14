@@ -26,6 +26,10 @@ $ protoc object_detection/protos/*.proto --python_out=. <br />
 $ python objectRecModels/objDetect.py <br />
 output image will be save in /output_imgs <br />
 
+# Install python moviepy
+$ pip install moviepy
+$ pip install imageio
+
 
 
 
