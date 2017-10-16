@@ -8,7 +8,7 @@ import tensorflow as tf
 import imageio
 import sys
 imageio.plugins.ffmpeg.download()
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 from PIL import Image
@@ -16,60 +16,24 @@ from moviepy.editor import VideoFileClip
 
 CWD_PATH = os.getcwd()
 print(sys.argv[1])
-def main(argv):
+def process(argv):
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
 	MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
 	PATH_TO_CKPT = os.path.join(CWD_PATH,  'object_detection', MODEL_NAME, 'frozen_inference_graph.pb')
 
 	# List of the strings that is used to add correct label for eachPATH_TO_CKPT box.
 	PATH_TO_LABELS = os.path.join(CWD_PATH, 'object_detection', 'data', 'mscoco_label_map.pbtxt')
-	PATH_TO_OUTPUT_IMG = os.path.join(CWD_PATH,  'output_imgs')
 
 	print("PATH_TO_CKPT:",PATH_TO_CKPT)
 	print("PATH_TO_LABELS:",PATH_TO_LABELS)
 	category_index = load_label(PATH_TO_LABELS)
-
-	# First test on images
-	PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images'
-	TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 4) ]
-	print("TEST_IMAGE_PATHS:",TEST_IMAGE_PATHS)
-	# Size, in inches, of the output images.
-	IMAGE_SIZE = (12, 8)
-
-	for image_path in TEST_IMAGE_PATHS:
-	  	image = Image.open(image_path)
-	  	print("z:",image_path)
-	  	image_np = load_image_into_numpy_array(image)
-	  	plt.imshow(image_np)
-	  	print(image.size, image_np.shape)
-	  	print("d")
-
-
 	detection_graph = tf.Graph()
-
 	with detection_graph.as_default():
 		od_graph_def = tf.GraphDef()
 		with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
 			serialized_graph = fid.read()
 			od_graph_def.ParseFromString(serialized_graph)
 			tf.import_graph_def(od_graph_def, name='')
-
-	with detection_graph.as_default():
-		with tf.Session(graph=detection_graph) as sess:
-			print("b")
-			ct = 0
-			for image_path in TEST_IMAGE_PATHS:
-				image = Image.open(image_path)
-				image_np = load_image_into_numpy_array(image)
-				print(image_path)
-				image_process = detect_objects(image_np, sess, detection_graph,category_index)
-				print(image_process.shape)
-				plt.figure(figsize=IMAGE_SIZE)
-				plt.imshow(image_process)
-				#plt.show()
-				plt.savefig(PATH_TO_OUTPUT_IMG+'/'+str(ct) + '.jpg')
-				print(str(ct) + '.jpg')
-				ct = ct+1
 	def process_image(image):
 		print('enter process_image')
 		with detection_graph.as_default():
@@ -77,7 +41,8 @@ def main(argv):
 				image_process = detect_objects(image, sess, detection_graph,category_index)
 				return image_process
 	white_output = 'output/'+ argv + 'out.mp4'
-	clip1 = VideoFileClip('input/'+ argv +'.mp4').subclip(0,5)
+	print('enter process_image1')
+	clip1 = VideoFileClip('input/'+ argv +'.mp4').subclip(0,1)
 	white_clip = clip1.fl_image(process_image)
 	white_clip.write_videofile(white_output, audio=False)
 
@@ -100,6 +65,7 @@ def detect_objects(image_np, sess, detection_graph,category_index):
 
     # Each box represents a part of the image where a particular object was detected.
     boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
+    #print(dtype(boxes))
 
     # Each score represent how level of confidence for each of the objects.
     # Score is shown on the result image, together with the class label.
@@ -131,6 +97,7 @@ def load_image_into_numpy_array(image):
 
 
 
-
+'''
 if __name__ == "__main__":
 	main(sys.argv[1])
+'''
