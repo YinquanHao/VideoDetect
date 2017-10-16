@@ -27,14 +27,14 @@ $ python objectRecModels/objDetect.py <br />
 output image will be save in /output_imgs <br />
 
 # Install python moviepy
-$ pip install moviepy
-$ pip install imageio
+$ pip install moviepy  <br />
+$ pip install imageio  <br />
 
-$ chmod 400 /yinhao.pem
-$ ssh -i yinhao.pem ec2-user@ec2-18-221-61-248.us-east-2.compute.amazonaws.com
+# login to aws webservice
+$ chmod 400 /yinhao.pem  <br />
+$ ssh -i yinhao.pem ec2-user@ec2-18-221-61-248.us-east-2.compute.amazonaws.com  <br />
 
-
-scp -i yinhao.pem ../protobuf-cpp-3.4.1.zip ec2-user@ec2-18-221-61-248.us-east-2.compute.amazonaws.com:~/
-
-sudo yum groupinstall "Development tools"
+# Install the gRPC to the aws ec2
+$ scp -i yinhao.pem ../protobuf-cpp-3.4.1.zip ec2-user@ec2-18-221-61-248.us-east-2.compute.amazonaws.com:~/  <br />
+$ sudo yum groupinstall "Development tools"  <br />
 
