@@ -41,3 +41,6 @@ def processVideo(processID,video_id):
 	global poolDict
 	objDetect.process(video_id)
 	poolDict[processID] = True
+
+if __name__ == "__main__":
+	app.run()
