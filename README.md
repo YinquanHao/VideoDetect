@@ -43,7 +43,8 @@ $ pip install gunicorn <br />
 $ sudo yum install nginx <br />
 $ sudo vi /etc/nginx/nginx.conf <br />
  replace the file with <br />
- '''
+
+```
 user ec2-user;
 worker_processes auto;
 error_log /var/log/nginx/error.log;
@@ -84,7 +85,7 @@ http {
         	proxy_pass http://127.0.0.1:8000;
     	 }	
 }
- '''
+```
 
 $ sudo /etc/rc.d/init.d/nginx start <br />
 $ gunicorn videoserver:app -b localhost:8000 & <br />
