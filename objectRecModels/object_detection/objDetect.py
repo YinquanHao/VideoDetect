@@ -15,7 +15,6 @@ from PIL import Image
 from moviepy.editor import VideoFileClip
 
 CWD_PATH = os.getcwd()
-print(sys.argv[1])
 def process(argv):
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
 	MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'

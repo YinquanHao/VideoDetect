@@ -2,7 +2,7 @@ __author__      = "Yinquan Hao"
 from flask import render_template
 from flask import Flask
 from flask import jsonify
-from object_detection import objDetect
+from objectRecModels import objDetect
 import time
 import datetime
 import thread

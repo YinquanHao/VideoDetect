@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='static/nprogress.js'></script>
+    <link rel='stylesheet' href='static/nprogress.css'/>
+    <link rel='stylesheet' href='static/searchbox.css'/>
+    <!-- Google Analytics -->
+<script>
+
+
+</script>
+<!-- End Google Analytics -->
+</head>
+<script>
+
+
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
+
+function send(videoId){
+    console.log(videoId)
+    inputData={'Id':videoId}
+            $.ajax({
+            type : 'GET',
+            url: '/process/'+videoId,
+            data : inputData,
+            success: function(data){
+                setTimeout(sendAgain,5000,data.process_id)
+                NProgress.start();
+                console.log('a new request')
+    },
+  });
+}
+
+function sendAgain(processId){
+    inputData={'Id':processId}
+            $.ajax({
+            type : 'GET',
+            url: '/status/'+processId,
+            data : inputData,
+            success: function(data){
+                if(data.status){
+                    console.log('finished')
+                    NProgress.done();
+                    return 1
+                }
+                else{
+                    NProgress.inc();
+                    setTimeout(sendAgain,5000,data.process_id)
+                    console.log('a new request')
+                    //sendAgain(data)
+                    return -1
+                }
+    },
+  });
+}
+
+function sendJson(){
+    inputData={'Id':1}
+    $.ajax({
+            type : 'POST',
+            url: '/j',
+            data : inputData,
+            success: function(data){
+                //var obj = JSON.parse(data)
+                console.log(data.a)
+    },
+  });
+}
+
+<!--var obj = JSON.parse()-->
+
+</script>
+<body>
+
+   <!--<div class="search">-->
+      <!--<input type="text" class="searchTerm" placeholder="keyword" id="s1">-->
+      <!--<button type="submit" class="searchButton" onclick="send()">-->
+        <!--search-->
+     <!--</button>-->
+   <!--</div>-->
+
+   <!--<button onclick="send('110')">click me</button>-->
+   <!--<button onclick="test3()">event</button>-->
+
+   <div class="form-wrapper">
+       <input type="text" id="search" placeholder="input video id" required>
+       <button id="submit" onclick="send(document.getElementById('search').value)">click</button>
+   </div>
+    <!--<button onclick="sendJson()">send json</button>-->
+
+</body>
+</html>
