@@ -34,28 +34,30 @@ function send(videoId){
             url: '/process/'+videoId,
             data : inputData,
             success: function(data){
-                setTimeout(sendAgain,5000,data.process_id)
+                setTimeout(sendAgain,5000,data.process_id,videoId)
                 NProgress.start();
                 console.log('a new request')
     },
   });
 }
 
-function sendAgain(processId){
-    inputData={'Id':processId}
+function sendAgain(processId,videoId){
+    	console.log(processId)
+	inputData={'Id':processId}
             $.ajax({
             type : 'GET',
             url: '/status/'+processId,
             data : inputData,
             success: function(data){
                 if(data.status){
+		    window.open("download/"+videoId)
                     console.log('finished')
                     NProgress.done();
                     return 1
                 }
                 else{
                     NProgress.inc();
-                    setTimeout(sendAgain,5000,data.process_id)
+                    setTimeout(sendAgain,5000,data.process_id,videoId)
                     console.log('a new request')
                     //sendAgain(data)
                     return -1
