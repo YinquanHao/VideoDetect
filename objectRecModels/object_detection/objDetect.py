@@ -39,9 +39,9 @@ def process(argv):
 			with tf.Session(graph=detection_graph) as sess:
 				image_process = detect_objects(image, sess, detection_graph,category_index)
 				return image_process
-	white_output = 'output/'+ argv + 'out.mp4'
+	white_output = 'output/download/'+ argv + 'out.mp4'
 	print('enter process_image1')
-	clip1 = VideoFileClip('input/'+ argv +'.mp4').subclip(0,1)
+	clip1 = VideoFileClip('input/'+ argv +'.mp4').subclip(0,5)
 	white_clip = clip1.fl_image(process_image)
 	white_clip.write_videofile(white_output, audio=False)
 

@@ -50,10 +50,11 @@ function sendAgain(processId,videoId){
             data : inputData,
             success: function(data){
                 if(data.status){
-		    window.open("download/"+videoId)
+		    window.open("download/"+videoId+'out.mp4')
+		    //window.location.assign("download/"+videoId)
                     console.log('finished')
                     NProgress.done();
-                    return 1
+                   return 1
                 }
                 else{
                     NProgress.inc();
@@ -79,6 +80,10 @@ function sendJson(){
   });
 }
 
+function download(videoId) {
+	window.open('download/' + videoId+'.mp4');
+}
+
 <!--var obj = JSON.parse()-->
 
 </script>
@@ -98,7 +103,6 @@ function sendJson(){
        <input type="text" id="search" placeholder="input video id" required>
        <button id="submit" onclick="send(document.getElementById('search').value)">click</button>
    </div>
-    <!--<button onclick="sendJson()">send json</button>-->
 
 </body>
 </html>

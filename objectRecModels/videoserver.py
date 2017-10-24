@@ -4,7 +4,7 @@ from flask import Flask
 from flask import jsonify
 from object_detection import objDetect
 #from upload import upload
-from flask import Response,send_from_directory,send_file
+from flask import Response,send_from_directory,send_file,make_response
 import vimeo
 import time
 import datetime
@@ -68,26 +68,38 @@ def processVideo(processID,video_id):
 	global poolDict
 	objDetect.process(video_id)
 	#videoLink=upload.uploadVideo("output/"+video_id+"out.mp4")
-        v = vimeo.VimeoClient(
-                token='7d3b39385a75e10b24ff9fdb7afd7525',
-                key='b7ef6a558435d5adcec41f084101ad2cf71a4a50',
-                secret='1v5uooFF5Q4kGzDB++4bWz7ktqjWc+eaIaNP8S3P/UPHktfoQhYi5zpWq1lS9Y7fOR32jSavbtFSOXoDijYAuR4qn/Se+prE64hnXS8nVbkwArZRXa1fJccO1dd7iXfZ')
-        video_uri = v.upload("output/"+video_id+"out.mp4")
-        print video_uri
-        v.patch(video_uri, data={'name': 'uploadtest', 'description': '...'})
-	videoLink="https://vimeo.com/"+video_uri[8:]
-        print videoLink
+        #v = vimeo.VimeoClient(
+#                token='7d3b39385a75e10b24ff9fdb7afd7525',
+#                key='b7ef6a558435d5adcec41f084101ad2cf71a4a50',
+#                secret='1v5uooFF5Q4kGzDB++4bWz7ktqjWc+eaIaNP8S3P/UPHktfoQhYi5zpWq1lS9Y7fOR32jSavbtFSOXoDijYAuR4qn/Se+prE64hnXS8nVbkwArZRXa1fJccO1dd7iXfZ')
+#        video_uri = v.upload("output/"+video_id+"out.mp4")
+#        print video_uri
+#        v.patch(video_uri, data={'name': 'uploadtest', 'description': '...'})
+#	videoLink="https://vimeo.com/"+video_uri[8:]
+#        print videoLink
 	poolDict[processID] = True
 
-@app.route("/download/<video_id>")
+@app.route("/download/<video_id>",methods=['GET','POST'])
 def download(video_id):
-	print video_id
+	#print video_id
 	#csv = '1,2,3\n4,5,6\n'
         #return Response(csv,mimetype="text/csv",headers={"Content-disposition":"attachment; filename=myplot.csv"})
         root_dir=os.path.dirname(os.getcwd())
-        print root_dir
-        return send_from_directory(root_dir+"/objectRecModels/output",video_id+"out.mp4",as_attachment=True)
-        #return send_file(root_dir+"/objectRecModels/output/"+video_id+"out.mp4",attachment_filename="result.mp4")
+        #print root_dir
+        #video=open(root_dir+"/objectRecModels/output/"+video_id+"out.mp4")
+        #return send_from_directory(root_dir+"/objectRecModels/output",video_id+"out.mp4",as_attachment=True)
+        #return Response(video,mimetype="video/mp4",headers={"Content-disposition":"attachment; filename=result.mp4"}) 
+        #size=os.path.getsize(root_dir+"/objectRecModels/output/"+video_id)
+        name='result.mp4'
+        response=make_response()
+        #response.headers['Content-Description'] = 'File Transfer'
+        response.headers['Cache-Control'] = 'no-cache'
+        response.headers['Content-Type']="application/octet-stream"
+        response.headers['Content-Disposition'] = 'attachment; filename=%s' % name
+        #response.headers['Content-Disposition']='attachment'
+        #response.headers['Content-Length'] = size
+        response.headers['X-Accel-Redirect'] ='/download/'+video_id
+        return response
 
 if __name__ == "__main__":
 	app.run()
