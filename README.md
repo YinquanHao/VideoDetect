@@ -57,7 +57,7 @@ Vimeo Video Host<br />
 # Using and testing
 goto: http://ec2-13-58-97-89.us-east-2.compute.amazonaws.com/<br />
 
-Input the videoID on viemo, current we only support MP4 format. Example 238003958<br />
+Input the videoID on viemo, current we only support MP4 format. Example 238003958, 239751075, 79327387<br />
 
 The process takes as long as 5 to 10 mins, due to the limit resource from EC2 :<<br />
 
