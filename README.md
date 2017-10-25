@@ -3,6 +3,8 @@
 
 The VideoDetect infrastructures would detect the object in the video and render boxes and labels on the output video.<br />
 
+![alt text](https://github.com/YinquanHao/VideoDetect/blob/master/objectRecModels/output_imgs/sample.png)
+
 ## Technologies Used In the VideoDetect
 
 ### Backend
