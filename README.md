@@ -1,5 +1,7 @@
 # VideoDetect
 ## The VideoDetect infrastructure
+Yinquan Hao <br />
+Lie Han <br />
 
 The VideoDetect infrastructures would detect the object in the video and render boxes and labels on the output video.<br />
 
