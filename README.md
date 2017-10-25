@@ -1,5 +1,5 @@
 # VideoDetect
-##The VideoDetect infrastructure
+## The VideoDetect infrastructure
 
 The VideoDetect infrastructures would detect the object in the video and render boxes and labels on the output video.<br />
 
