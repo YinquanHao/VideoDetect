@@ -1,5 +1,65 @@
 # VideoDetect
-The VideoDetect infrastructures
+##The VideoDetect infrastructure
+
+The VideoDetect infrastructures would detect the object in the video and render boxes and labels on the output video.<br />
+
+## Technologies Used In the VideoDetect
+
+### Backend
+Tensorflow<br />
+Opencv<br />
+python Image<br />
+Numpy<br />
+PILLOW<br />
+gRpc<br />
+
+### Frontend & Web App
+Flask<br />
+Nginx<br />
+Jquery<br />
+gunicorn<br />
+
+### Cloud and Video Host
+Amazon Ec2<br />
+Vimeo Video Host<br />
+
+## Brief pipeline of the infrastructure
+
+1) The Web Application would take a videoID of Vimeo from the user.<br />
+
+2) The videoID would be sent to the backend service as a request.<br />
+
+3) The backend service adds a new thread to the thread pool to process the video and mark the newly added thread's status as in process.<br />
+
+3a) The backend service would download the video from the Vimeo.<br />
+
+3b) The backend service would break down the video frame by frame.<br />
+
+3c) For each frame it would use the Object Detection Model to detect the objects in the frame.<br />
+
+3d) The backend service re-combine the frames to an output video and save it.<br />
+
+3e) The backend service make the thread status as done.<br />
+
+4) The backend service would generate a unique process_id and send it back to client side.<br />
+
+5) The client would send a request to server side to check if the worker thread corresponding to process_id is done.<br />
+
+5a) If the backend's response shows the status as in process repeat step 5.<br />
+
+5b) client side would open a video stream if the backend's response shows the status as done.<br />
+
+
+# Using and testing
+goto: http://ec2-13-58-97-89.us-east-2.compute.amazonaws.com/<br />
+
+Input the videoID on viemo, current we only support MP4 format. Example 238003958<br />
+
+The process takes as long as 5 to 10 mins, due to the limit resource from EC2 :<<br />
+
+After the process finished, a video would play.<br />
+
+
 
 # Install Tensorflow on Ubuntu
 $ sudo apt-get install python-pip python-dev <br />
