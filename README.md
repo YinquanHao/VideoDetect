@@ -1,3 +1,4 @@
+##DUE TO THE AWS BILLING WE ARE TEMP CLOSE THE AWS SERVICE. WE WILL MAKE A NEW INSTANCE IN DEC 2017
 # VideoDetect
 ## The VideoDetect infrastructure
 Yinquan Hao <br />
